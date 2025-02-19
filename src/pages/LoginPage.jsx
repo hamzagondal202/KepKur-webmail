@@ -23,7 +23,7 @@ export default function LoginPage() {
         // Set 'auth' to true on successful login
         localStorage.setItem('auth', 'true');
 
-        navigate("/users");
+        navigate("/inbox");
       }
     }
   };

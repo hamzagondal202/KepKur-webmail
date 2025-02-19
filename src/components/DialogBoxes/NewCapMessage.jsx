@@ -48,7 +48,7 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
       </DialogContent>
 
       <DialogActions>
-        <Button variant="contained" color="secondary" onClick={handleClose}>
+        <Button variant="contained" color="warning" onClick={handleClose}>
           Give Up
         </Button>
         <Button variant="contained" color="success">
