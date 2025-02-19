@@ -2,6 +2,7 @@ import { Menu, LogOut, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+// eslint-disable-next-line react/prop-types
 export default function Header({ toggleSidebar }) {
   const navigate = useNavigate();
   const [showLogout, setShowLogout] = useState(false);

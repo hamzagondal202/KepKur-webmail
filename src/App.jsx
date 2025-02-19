@@ -1,8 +1,18 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "./layout/DashboardLayout";
-import Users from "./pages/Users";
 import Inbox from "./pages/Inbox";
-import Profile from "./pages/Profile";
+import OutBox from "./pages/OutBox";
+import Drafts from "./pages/Drafts";
+import EvidenceBox from "./pages/EvidenceBox"
+import Bin from "./pages/Bin"
+import MyAddressBook from "./pages/myAddressBook";
+import VerifyEvidence from "./pages/VerifyEvidence"
+import InquireGuide from "./pages/InquireGuide";
+import AccountHolderInformation from "./pages/AccountHolderInformation"
+import AccountInformation from "./pages/AccountInformation"
+import UserInformation from "./pages/UserInformation"
+import AccountLogs from "./pages/AccountLogs"
+import AccountClosure from "./pages/AccountClosure"
 import PrivateRoute from "./routes/PrivateRoute";
 import LoginPage from "./pages/LoginPage";
 
@@ -17,9 +27,20 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route element={<DashboardLayout />}>
             {/*<Route index element={<Navigate to="users" replace />} />  Redirect from dashboard root to /users */}
-            <Route path="users" element={<Users />} />
             <Route path="inbox" element={<Inbox />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="outbox" element={<OutBox />} />
+            <Route path="drafts" element={<Drafts />} />
+            <Route path="evidence-box" element={<EvidenceBox />} />
+            <Route path="bin" element={<Bin />} />
+            <Route path="my-address-book" element={<MyAddressBook />} />
+            <Route path="verify-evidence" element={<VerifyEvidence />} />
+            <Route path="inquire-guide" element={<InquireGuide />} />
+            <Route path="account-holder-information" element={<AccountHolderInformation />} />
+            <Route path="account-information" element={<AccountInformation />} />
+            <Route path="user-information" element={<UserInformation />} />
+            <Route path="account-logs" element={<AccountLogs />} />
+            <Route path="account-closure" element={<AccountClosure />} />
+
           </Route>
         </Route>
 
