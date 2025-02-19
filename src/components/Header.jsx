@@ -35,10 +35,10 @@ export default function Header({ toggleSidebar }) {
         </div>
 
         {/* Email (Bottom Row) */}
-        <div className="relative mt-1">
+        <div className="relative mt-3">
           <button
             onClick={() => setShowLogout(!showLogout)}
-            className="text-white text-sm font-medium flex"
+            className="text-white text-sm  flex"
           >
             ilayda.kuran@hs06.kep.tr <ChevronDown />
           </button>

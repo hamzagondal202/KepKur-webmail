@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CircleUserRound, HelpCircle, LogIn } from "lucide-react";
+import { login } from "../services/AuthService";
 
 export default function LoginPage() {
   const [loginMethod, setLoginMethod] = useState("password"); // "password" or "eSignature"
   const [step, setStep] = useState("login"); // "login", "selectAccount", "otpVerification"
   const [form, setForm] = useState({ id: "", password: "", email: "", otp: "" });
   const [errors, setErrors] = useState({ id: "", password: "", email: "", otp: "" });
+
+  const [accounts, setAccounts] = useState([]);
 
   const navigate = useNavigate();
 
@@ -23,7 +26,7 @@ export default function LoginPage() {
         // Set 'auth' to true on successful login
         localStorage.setItem('auth', 'true');
 
-        navigate("/users");
+        navigate("/inbox");
       }
     }
   };
@@ -34,14 +37,21 @@ export default function LoginPage() {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let newErrors = {};
 
     if (loginMethod === "password") {
       if (step === "login") {
-        if (!form.id.trim()) newErrors.id = "TR ID Number/Passport Number is required";
-        if (!form.password.trim()) newErrors.password = "Password required";
+        if (!form.id.trim() || !form.password.trim()) {
+          if (!form.id.trim()) newErrors.id = "TR ID Number/Passport Number is required";
+          if (!form.password.trim()) newErrors.password = "Password required";
+        }
+        else {
+          const response = await login(form)
+          setAccounts(response.accounts);
+          console.log(response)
+        }
       }
     } else {
       if (!form.email.trim()) newErrors.email = "Email is required";
@@ -170,8 +180,19 @@ export default function LoginPage() {
           <div>
             <h2 className="text-lg font-medium mb-3">Select Account</h2>
             <div className="flex items-center">
-              <select className="w-full border rounded-md p-2">
-                <option value="user1">ilayda.kuran@hs06.kep.tr</option>
+              <select
+                className="w-full border rounded-md p-2"
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              >
+                {accounts.length > 0 ? (
+                  accounts.map((account, index) => (
+                    <option key={index} value={account.email}>
+                      {account.email}
+                    </option>
+                  ))
+                ) : (
+                  <option>No accounts available</option>
+                )}
               </select>
               <div className="mx-10">
                 <button
@@ -203,7 +224,7 @@ export default function LoginPage() {
                 {errors.otp && <p className="text-red-500 text-sm col-span-2">{errors.otp}</p>}
               </div>
               <div className="">
-                <button type="submit" className="bg-green-700 text-white mx-10 px-6 py-2 rounded-md">
+                <button type="submit" onClick={handleRedirection} className="bg-green-700 text-white mx-10 px-6 py-2 rounded-md">
                   Entrance
                 </button>
               </div>

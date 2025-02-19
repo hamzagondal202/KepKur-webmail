@@ -24,7 +24,7 @@ const Inbox = () => {
 
 
   return (
-    <div className={`transition-all duration-300 p-6`}>
+    <div className={`transition-all duration-300 p-6 bg-gray-100 min-h-screen`}>
       {/* Header */}
       <h1 className="text-2xl font-bold mb-4">Inbox</h1>
 
@@ -74,6 +74,7 @@ const Inbox = () => {
           name="startDate"
           value={searchParams.startDate}
           onChange={handleChange}
+          placeholder="Start Date"
           className="border p-2 rounded"
         />
         <input
@@ -81,6 +82,7 @@ const Inbox = () => {
           name="endDate"
           value={searchParams.endDate}
           onChange={handleChange}
+          placeholder="End Date"
           className="border p-2 rounded"
         />
       </div>
@@ -111,15 +113,15 @@ const Inbox = () => {
       </div>
 
       {/* Table */}
-      <div className="border rounded-md shadow-md overflow-hidden">
+      <div className="border rounded-md shadow-md overflow-hidden bg-white">
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-100">
             <tr>
-              <th className="p-3 border">Read Status</th>
-              <th className="p-3 border">Subject</th>
-              <th className="p-3 border">Sender</th>
-              <th className="p-3 border">Buyers</th>
-              <th className="p-3 border">Post Date</th>
+              <th className="p-3 border bg-white">Read Status</th>
+              <th className="p-3 border bg-white">Subject</th>
+              <th className="p-3 border bg-white">Sender</th>
+              <th className="p-3 border bg-white">Buyers</th>
+              <th className="p-3 border bg-white">Post Date</th>
             </tr>
           </thead>
           <tbody>
