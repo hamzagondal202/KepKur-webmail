@@ -8,7 +8,6 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  Grid,
   Box,
 } from "@mui/material";
 import ReactQuill from "react-quill-new";
@@ -52,6 +51,7 @@ const modules = {
 };
 
 
+// eslint-disable-next-line react/prop-types
 const NewCapMessageDialog = ({ open, handleClose }) => {
   const [message, setMessage] = useState("");
   const [receiver, setReceiver] = useState("");
