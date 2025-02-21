@@ -1,6 +1,6 @@
 const AccountInformation = () => {
   return (
-    <div className="grid grid-cols-2 gap-4 bg-gray-100 p-4">
+    <div className="grid grid-cols-2 gap-4 bg-gray-100 min-h-screen p-4">
       <div className="col-span-2 p-4 bg-white rounded-md border border-gray-300 shadow-lg mx-2">
         <h2 className="text-green-400 font-bold text-lg border-b-2 border-green-400 pb-2">Remaining Credit Information</h2>
         <div className="mt-2 text-gray-700">

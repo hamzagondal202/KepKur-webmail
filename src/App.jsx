@@ -5,7 +5,7 @@ import OutBox from "./pages/OutBox";
 import Drafts from "./pages/Drafts";
 import EvidenceBox from "./pages/EvidenceBox"
 import Bin from "./pages/Bin"
-import MyAddressBook from "./pages/myAddressBook";
+import MyAddressBook from "./pages/MyAddressBook";
 import VerifyEvidence from "./pages/VerifyEvidence"
 import InquireGuide from "./pages/InquireGuide";
 import AccountHolderInformation from "./pages/AccountHolderInformation"

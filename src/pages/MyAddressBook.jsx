@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
-// import { NewMessageDialog } from "../components/DialogBoxes/Dialog";
 import { Button } from "@mui/material";
 import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
-const MyAddressBook = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+import { useTranslation } from "react-i18next";
 
+const MyAddressBook = () => {
+  const { t } = useTranslation();
+
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [data, setData] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [rowChecked, setRowChecked] = useState({});
-
 
   const handleClose = () => {
     setDialogOpen(false);
@@ -75,7 +76,7 @@ const MyAddressBook = () => {
   return (
     <div className={`transition-all duration-300 p-6 bg-gray-100 min-h-screen`}>
       {/* Header */}
-      <h1 className="text-2xl font-bold mb-4">My Address Book</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("my-address-book")}</h1>
 
       {/* Search Filters */}
 
@@ -86,7 +87,7 @@ const MyAddressBook = () => {
         onClick={() => setDialogOpen(true)}
       >
         <FaPlus />
-        <span>Add</span>
+        <span>{t("add")}</span>
       </Button>
 
       {/* Table */}
@@ -99,19 +100,19 @@ const MyAddressBook = () => {
                   checked={isChecked}  // Bind header checkbox to isChecked state
                   onChange={handleHeaderCheckboxChange} />
               </th>
-              <th className="p-3 ">KEP Address</th>
-              <th className="p-3 ">Delivery</th>
-              <th className="p-3 ">Last name</th>
-              <th className="p-3 ">Email</th>
-              <th className="p-3 ">Telephone</th>
-              <th className="p-3 ">Address</th>
+              <th className="p-3 ">{t("kepAddress")}</th>
+              <th className="p-3 ">{t("delivery")}</th>
+              <th className="p-3 ">{t("lastName")}</th>
+              <th className="p-3 ">{t("email")}</th>
+              <th className="p-3 ">{t("telephone")}</th>
+              <th className="p-3 ">{t("address")}</th>
             </tr>
           </thead>
           <tbody>
             {data.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center p-4 text-gray-500">
-                  No record found
+                  {t("noRecordFound")}
                 </td>
               </tr>
             ) : (

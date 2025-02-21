@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { FaSearch, FaPlus, FaSyncAlt } from "react-icons/fa";
-// import { NewMessageDialog } from "../components/DialogBoxes/Dialog";
+import { useTranslation } from "react-i18next";
 import { Button } from "@mui/material";
 import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
+import { getOutboxItems } from "../services/OutboxService";
+
 const OutBox = () => {
+  const { t } = useTranslation();
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchParams, setSearchParams] = useState({
     readStatus: "",
@@ -17,6 +21,7 @@ const OutBox = () => {
   const [data, setData] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [rowChecked, setRowChecked] = useState({});
+  const [reloadTrigger, setReloadTrigger] = useState(0);
 
   const handleChange = (e) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
@@ -47,33 +52,29 @@ const OutBox = () => {
     }));
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await getOutboxItems(); // Fetch data
+      if (response && response.emails) {
+        setData(response.emails);
+      } else {
+        setData([]); // Default to empty array
+      }
+    } catch (error) {
+      console.error("Error fetching inbox items:", error);
+      setData([]);
+    }
+  };
 
+  // Fetch data when component mounts or when reloadTrigger changes
   useEffect(() => {
-    // Simulate fetching data with a delay (replace with your actual API call)
-    setTimeout(() => {
-      setData([
-        {
-          id: 1,
-          subject: 'Subject 1',
-          buyers: 'Buyer 1',
-          postDate: '2025-02-19',
-          status: 'sent'
-        },
-        {
-          id: 2,
-          subject: 'Subject 2',
-          buyers: 'Buyer 2',
-          postDate: '2025-02-20',
-          status: 'pending'
-        },
-      ]);
-    }, 2000);
-  }, []);
+    fetchData();
+  }, [reloadTrigger]);
 
   return (
     <div className={`transition-all duration-300 p-6 bg-gray-100 min-h-screen`}>
       {/* Header */}
-      <h1 className="text-2xl font-bold mb-4">OutBox</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("outbox")}</h1>
 
       {/* Search Filters */}
       <div className="grid grid-cols-6 gap-4 mb-4">
@@ -83,7 +84,7 @@ const OutBox = () => {
           name="subject"
           value={searchParams.subject}
           onChange={handleChange}
-          placeholder="Subject"
+          placeholder={t("subject")}
           className="border p-2 rounded"
         />
         <input
@@ -91,7 +92,7 @@ const OutBox = () => {
           name="buyers"
           value={searchParams.buyers}
           onChange={handleChange}
-          placeholder="Buyers"
+          placeholder={t("buyers")}
           className="border p-2 rounded"
         />
 
@@ -114,7 +115,7 @@ const OutBox = () => {
         <div className="flex flex-row justify-between col-span-2 me-6">
           <button className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-md shadow-md">
             <FaSearch />
-            <span>We buy</span>
+            <span>{t("weBuy")}</span>
           </button>
 
           <Button
@@ -124,7 +125,7 @@ const OutBox = () => {
             onClick={() => setDialogOpen(true)}
           >
             <FaPlus />
-            <span>New Cap Message</span>
+            <span>{t("newCapMessage")}</span>
           </Button>
         </div>
 
@@ -132,7 +133,7 @@ const OutBox = () => {
 
 
       <div className="flex flex-row items-end justify-end mb-2">
-        <button className="bg-green-500 text-white p-2 rounded-md shadow-md">
+        <button onClick={() => setReloadTrigger((prev) => prev + 1)} className="bg-green-500 text-white p-2 rounded-md shadow-md">
           <FaSyncAlt />
         </button>
       </div>
@@ -146,17 +147,17 @@ const OutBox = () => {
                   checked={isChecked}  // Bind header checkbox to isChecked state
                   onChange={handleHeaderCheckboxChange} />
               </th>
-              <th className="p-3">Subject</th>
-              <th className="p-3">Buyers</th>
-              <th className="p-3">Post Date</th>
-              <th className="p-3">Status</th>
+              <th className="p-3">{t("subject")}</th>
+              <th className="p-3">{t("buyers")}</th>
+              <th className="p-3">{t("postDate")}</th>
+              <th className="p-3">{t("status")}</th>
             </tr>
           </thead>
           <tbody>
             {data.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center p-4">
-                  No record found
+                  {t("noRecordFound")}
                 </td>
               </tr>
             ) : (
@@ -164,13 +165,13 @@ const OutBox = () => {
                 <tr key={item.id}>
                   <td className="p-2 w-0 ">
                     <input type="checkbox" className="w-5 h-5 mt-1"
-                      checked={rowChecked[item.id] || false} // Bind row checkbox to individual state
-                      onChange={(e) => handleRowCheckboxChange(e, item.id)} // Handle row checkbox change
+                      checked={rowChecked[item.id] || false}
+                      onChange={(e) => handleRowCheckboxChange(e, item.id)}
                     />
                   </td>
                   <td className="p-2 border-b">{item.subject}</td>
-                  <td className="p-2 border-b">{item.buyers}</td>
-                  <td className="p-2 border-b">{item.postDate}</td>
+                  <td className="p-2 border-b">{item.receiver}</td>
+                  <td className="p-2 border-b">{item.sent_date}</td>
                   <td className="p-2 border-b">{item.status}</td>
 
                 </tr>

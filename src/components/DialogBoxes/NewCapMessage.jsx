@@ -3,8 +3,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button,
   TextField,
+  Button,
   RadioGroup,
   FormControlLabel,
   Radio,
@@ -13,6 +13,7 @@ import {
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const undoChange = () => {
   const editor = document.querySelector(".ql-editor");
@@ -53,6 +54,8 @@ const modules = {
 
 // eslint-disable-next-line react/prop-types
 const NewCapMessageDialog = ({ open, handleClose }) => {
+  const { t } = useTranslation();
+
   const [message, setMessage] = useState("");
   const [receiver, setReceiver] = useState("");
   const [subject, setSubject] = useState("");
@@ -67,7 +70,7 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
           <div className="flex flex-col w-full">
             <TextField
               fullWidth
-              label="Receiver"
+              label={t("receiver")}
               variant="outlined"
               margin="dense"
               value={receiver}
@@ -82,7 +85,7 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
             />
             <TextField
               fullWidth
-              label="Subject"
+              label={t("subject")}
               variant="outlined"
               margin="dense"
               value={subject}
@@ -97,21 +100,19 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
             />
           </div>
           <div className="mt-1.5">
-            <Button
-              variant="contained"
-              color="warning"
-              className="h-9 w-28 text-sm px-2"
+            <button
+              className="h-9 w-28 text-sm px-2 border rounded-md bg-orange-500 text-white hover:bg-orange-600"
             >
-              Select Address
-            </Button>
+              {t("select-address")}
+            </button>
           </div>
         </div>
 
 
         {/* Radio Buttons */}
         <RadioGroup row defaultValue="standard">
-          <FormControlLabel value="standard" control={<Radio />} label="Standard" />
-          <FormControlLabel value="e-correspondence" control={<Radio />} label="e-Correspondence" />
+          <FormControlLabel value="standard" control={<Radio />} label={t("standard")} />
+          <FormControlLabel value="e-correspondence" control={<Radio />} label={t("e-correspondence")} />
         </RadioGroup>
 
         {/* Rich Text Editor */}
@@ -124,9 +125,9 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
         />
 
         {/* Add File Button */}
-        <Box mt={2}>
+        <Box mt={8}>
           <Button variant="contained" component="label" sx={{ backgroundColor: "#E0E0E0", color: "black" }}>
-            Add File
+            {t("add-file")}
             <input type="file" hidden />
           </Button>
         </Box>
@@ -134,17 +135,17 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
 
       <DialogActions sx={{ padding: "16px" }}>
         <Button variant="contained" color="error" onClick={handleClose}>
-          Give Up
+          {t("give-up")}
         </Button>
         <Button variant="contained" color="success">
-          Save to Draft
+          {t("save-to-draft")}
         </Button>
         <Button
           variant="contained"
           disabled={!receiver || !subject || !message.trim()}
           sx={{ backgroundColor: "#BDBDBD" }}
         >
-          Send
+          {t("send")}
         </Button>
       </DialogActions>
     </Dialog>

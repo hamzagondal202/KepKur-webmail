@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import { FaSearch, FaPlus, FaSyncAlt } from "react-icons/fa";
-// import { NewMessageDialog } from "../components/DialogBoxes/Dialog";
 import { Button } from "@mui/material";
 import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
+import { useTranslation } from "react-i18next";
+import { getDraftItems } from "../services/DraftService";
+
 const Drafts = () => {
+  const { t } = useTranslation();
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchParams, setSearchParams] = useState({
     readStatus: "",
@@ -17,6 +21,7 @@ const Drafts = () => {
   const [data, setData] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [rowChecked, setRowChecked] = useState({});
+  const [reloadTrigger, setReloadTrigger] = useState(0);
 
   const handleChange = (e) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
@@ -48,30 +53,30 @@ const Drafts = () => {
   };
 
 
+  const fetchData = async () => {
+    try {
+      const response = await getDraftItems(); // Fetch data
+      if (response && response.emails) {
+        setData(response.emails);
+      } else {
+        setData([]); // Default to empty array
+      }
+    } catch (error) {
+      console.error("Error fetching inbox items:", error);
+      setData([]);
+    }
+  };
+
+  // Fetch data when component mounts or when reloadTrigger changes
   useEffect(() => {
-    // Simulate fetching data with a delay (replace with your actual API call)
-    setTimeout(() => {
-      setData([
-        {
-          id: 1,
-          subject: 'Subject 1',
-          buyers: 'Buyer 1',
-          postDate: '2025-02-19',
-        },
-        {
-          id: 2,
-          subject: 'Subject 2',
-          buyers: 'Buyer 2',
-          postDate: '2025-02-20',
-        },
-      ]);
-    }, 2000);
-  }, []);
+    fetchData();
+  }, [reloadTrigger]);
+
 
   return (
     <div className={`transition-all duration-300 p-6 bg-gray-100 min-h-screen`}>
       {/* Header */}
-      <h1 className="text-2xl font-bold mb-4">Drafts</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("drafts")}</h1>
 
       {/* Search Filters */}
       <div className="grid grid-cols-6 gap-4 mb-4">
@@ -81,7 +86,7 @@ const Drafts = () => {
           name="subject"
           value={searchParams.subject}
           onChange={handleChange}
-          placeholder="Subject"
+          placeholder={t("subject")}
           className="border p-2 rounded"
         />
         <input
@@ -89,7 +94,7 @@ const Drafts = () => {
           name="buyers"
           value={searchParams.buyers}
           onChange={handleChange}
-          placeholder="Buyers"
+          placeholder={t("buyers")}
           className="border p-2 rounded"
         />
 
@@ -112,7 +117,7 @@ const Drafts = () => {
         <div className="flex flex-row justify-between col-span-2 me-6">
           <button className="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-md shadow-md">
             <FaSearch />
-            <span>We buy</span>
+            <span>{t("weBuy")}</span>
           </button>
 
           <Button
@@ -122,38 +127,31 @@ const Drafts = () => {
             onClick={() => setDialogOpen(true)}
           >
             <FaPlus />
-            <span>New Cap Message</span>
+            <span>{t("newCapMessage")}</span>
           </Button>
         </div>
-
       </div>
 
-
-      <div className="flex flex-row items-end justify-end mb-2">
-        <button className="bg-green-500 text-white p-2 rounded-md shadow-md">
-          <FaSyncAlt />
-        </button>
-      </div>
       {/* Table */}
-      <div className="border rounded-md shadow-md overflow-hidden bg-white">
+      <div className="border rounded-md shadow-md overflow-hidden bg-white mt-10">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr>
               <th className="p-2 w-0">
                 <input type="checkbox" className="w-5 h-5 mt-2"
-                  checked={isChecked}  // Bind header checkbox to isChecked state
+                  checked={isChecked}
                   onChange={handleHeaderCheckboxChange} />
               </th>
-              <th className="p-3">Subject</th>
-              <th className="p-3">Buyers</th>
-              <th className="p-3">Creation Date</th>
+              <th className="p-3">{t("subject")}</th>
+              <th className="p-3">{t("buyers")}</th>
+              <th className="p-3">{t("creationDate")}</th>
             </tr>
           </thead>
           <tbody>
             {data.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center p-4 text-gray-500">
-                  No record found
+                  {t("noRecordFound")}
                 </td>
               </tr>
             ) : (
@@ -161,13 +159,13 @@ const Drafts = () => {
                 <tr key={item.id} className="border">
                   <td className="p-2 w-0">
                     <input type="checkbox" className="w-5 h-5 mt-1"
-                      checked={rowChecked[item.id] || false} // Bind row checkbox to individual state
-                      onChange={(e) => handleRowCheckboxChange(e, item.id)} // Handle row checkbox change
+                      checked={rowChecked[item.id] || false}
+                      onChange={(e) => handleRowCheckboxChange(e, item.id)}
                     />
                   </td>
                   <td className="p-2">{item.subject}</td>
-                  <td className="p-2">{item.buyers}</td>
-                  <td className="p-2">{item.postDate}</td>
+                  <td className="p-2">{item.Buyers}</td>
+                  <td className="p-2">{item.last_modified}</td>
                 </tr>
               ))
             )}

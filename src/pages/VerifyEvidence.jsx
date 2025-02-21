@@ -1,7 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 const VerifyEvidence = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="p-4 bg-white rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Verify Evidence</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("verify-evidence")}</h1>
       <div className="relative overflow-hidden inline-block">
         {/* <!-- Hidden file input --> */}
         <input
@@ -14,11 +18,11 @@ const VerifyEvidence = () => {
           htmlFor="file-input"
           className="inline-block px-4 py-2 bg-gray-500 text-white rounded-md cursor-pointer hover:bg-blue-600"
         >
-          Upload File
+          {t("upload-file")}
         </label>
-        </div>
+      </div>
     </div>
-      );
+  );
 };
 
-      export default VerifyEvidence;
+export default VerifyEvidence;

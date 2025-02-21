@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { FaSearch, FaSyncAlt } from "react-icons/fa";
-// import { NewMessageDialog } from "../components/DialogBoxes/Dialog";
 import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
+import { useTranslation } from "react-i18next";
+
 const Bin = () => {
+  const { t } = useTranslation();
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchParams, setSearchParams] = useState({
     readStatus: "",
@@ -64,7 +67,7 @@ const Bin = () => {
   return (
     <div className={`transition-all duration-300 p-6 bg-gray-100 min-h-screen`}>
       {/* Header */}
-      <h1 className="text-2xl font-bold mb-4">Bin</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("bin")}</h1>
 
       {/* Search Filters */}
       <div className="grid grid-cols-6 gap-4 mb-4">
@@ -74,7 +77,7 @@ const Bin = () => {
           name="subject"
           value={searchParams.subject}
           onChange={handleChange}
-          placeholder="Subject"
+          placeholder={t("subject")}
           className="border p-2 rounded"
         />
         <input
@@ -82,7 +85,7 @@ const Bin = () => {
           name="buyers"
           value={searchParams.buyers}
           onChange={handleChange}
-          placeholder="Buyers"
+          placeholder={t("buyers")}
           className="border p-2 rounded"
         />
 
@@ -105,7 +108,7 @@ const Bin = () => {
         <div className="flex flex-row justify-between col-span-2 me-6">
           <button className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-md shadow-md">
             <FaSearch />
-            <span>We buy</span>
+            <span>{t("weBuy")}</span>
           </button>
         </div>
 
@@ -127,16 +130,16 @@ const Bin = () => {
                   checked={isChecked}  // Bind header checkbox to isChecked state
                   onChange={handleHeaderCheckboxChange} />
               </th>
-              <th className="p-3">Subject</th>
-              <th className="p-3">Post Date</th>
-              <th className="p-3">Sender</th>
+              <th className="p-3">{t("subject")}</th>
+              <th className="p-3">{t("postDate")}</th>
+              <th className="p-3">{t("sender")}</th>
             </tr>
           </thead>
           <tbody>
             {data.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center p-4 text-gray-500">
-                  No record found
+                  {t("noRecordFound")}
                 </td>
               </tr>
             ) : (
