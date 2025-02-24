@@ -48,8 +48,8 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
   }, [open]);
 
   const handleCloseDialog = useCallback(() => {
-    editor.current?.editor?.blur(); // Remove focus
-    handleClose(); // Close dialog
+    editor.current?.editor?.blur();
+    handleClose();
   }, [handleClose]);
 
   return (
@@ -75,6 +75,9 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
             />
+          </div>
+          <div>
+            <button className="text-white mt-3 border text-md whitespace-nowrap px-2 py-3 rounded-md bg-#f68b44" style={{ backgroundColor: "#f68b44" }}>{t("select-address")}</button>
           </div>
         </div>
 

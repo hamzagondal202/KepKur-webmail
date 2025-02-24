@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
 import { useTranslation } from "react-i18next";
 import { getInboxItems } from "../services/InboxService";
+import { LoaderCircle } from "lucide-react";
 
 const Inbox = () => {
   const { t } = useTranslation();
@@ -18,6 +19,7 @@ const Inbox = () => {
     endDate: "",
   });
   const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
   const [rowChecked, setRowChecked] = useState({});
   const [reloadTrigger, setReloadTrigger] = useState(0);
@@ -51,15 +53,18 @@ const Inbox = () => {
   // Function to fetch inbox data
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await getInboxItems(); // Fetch data
       if (response && response.emails) {
         setData(response.emails);
       } else {
-        setData([]); // Default to empty array
+        setData([]);
       }
     } catch (error) {
       console.error("Error fetching inbox items:", error);
       setData([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -170,7 +175,15 @@ const Inbox = () => {
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
+            {isLoading ? (
+              <tr>
+                <td colSpan={6} className="p-4">
+                  <div className="flex justify-center items-center">
+                    <LoaderCircle color="#2563eb" className="w-8 h-8 animate-spin text-blue-600" />
+                  </div>
+                </td>
+              </tr>
+            ) : (data.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center p-4 text-gray-500">
                   {t("noRecordFound")}
@@ -194,6 +207,7 @@ const Inbox = () => {
                   <td className="p-3">{item.received_date}</td>
                 </tr>
               ))
+            )
             )}
           </tbody>
         </table>

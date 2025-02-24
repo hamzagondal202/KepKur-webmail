@@ -66,5 +66,6 @@
     "standard": "Standard",
     "e-correspondence": "E-Correspondence",
     "upload-file": "Upload file",
-    "createMessage": "Create Message"
+    "createMessage": "Create Message",
+    "loading": "Loading"
 }
