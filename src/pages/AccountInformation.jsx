@@ -1,4 +1,37 @@
+import { useState } from "react";
+import BuyNow from "../components/DialogBoxes/BuyNow";
+import AddStorage from "../components/DialogBoxes/AddStorage";
+import StorageArea from "../components/DialogBoxes/StorageArea"
+import Purchases from "../components/DialogBoxes/Purchases"
+import AddBilling from "../components/DialogBoxes/AddBilling"
 const AccountInformation = () => {
+
+  const [buyDialogOpen, setBuyDialogOpen] = useState(false);
+  const [addStorageDialogOpen, setAddStorageDialogOpen] = useState(false);
+  const [storageAreaDialogOpen, setStorageAreaDialogOpen] = useState(false);
+  const [purchasesDialogOpen, setPurchasesDialogOpen] = useState(false);
+  const [addBillingDialogOpen, setAddBillingDialogOpen] = useState(false);
+
+  const handleBuyClose = () => {
+    setBuyDialogOpen(false);
+  };
+
+  const handleAddStorageClose = () => {
+    setAddStorageDialogOpen(false);
+  };
+
+  const handleStorageAreaClose = () => {
+    setStorageAreaDialogOpen(false);
+  };
+
+  const handlePurchasesClose = () => {
+    setPurchasesDialogOpen(false);
+  };
+
+  const handleAddBillingClose = () => {
+    setAddBillingDialogOpen(false);
+  };
+
   return (
     <div className="grid grid-cols-2 gap-4 bg-gray-100 min-h-screen p-4">
       <div className="col-span-2 p-4 bg-white rounded-md border border-gray-300 shadow-lg mx-2">
@@ -8,7 +41,10 @@ const AccountInformation = () => {
             <p>Remaining Credit Balance: </p>
             <div className="space-x-5">
               <span className="text-black">0</span>
-              <button className="mt-2 px-4 py-2 bg-green-600 text-white rounded">Buy Now</button>
+              <button
+                className="mt-2 px-4 py-2 bg-green-600 text-white rounded"
+                onClick={() => setBuyDialogOpen(true)}>Buy Now
+              </button>
             </div>
           </div>
 
@@ -18,8 +54,17 @@ const AccountInformation = () => {
             <div className="flex flex-row items-center gap-8">
               <p>Storage Area: </p>
               <p>0.00MB / 100.00MB</p>
-              <button className="mt-2 px-4 py-2 bg-green-600 text-white rounded">Add</button>
-              <button className="mt-2 ml-2 px-4 py-2 bg-blue-600 text-white rounded">Details Do</button>
+
+              <button
+                className="mt-2 px-4 py-2 bg-green-600 text-white rounded"
+                onClick={() => setAddStorageDialogOpen(true)}>Add
+              </button>
+
+              <button
+                className="mt-2 ml-2 px-4 py-2 bg-blue-600 text-white rounded"
+                onClick={() => setStorageAreaDialogOpen(true)}>Details Do
+              </button>
+
             </div>
             <div className="flex flex-row space-x-7">
               <div className="flex flex-row w-1/2 items-center gap-4">
@@ -107,8 +152,14 @@ const AccountInformation = () => {
           </table>
           <h2 className="text-green-400 font-bold text-lg border-b border-green-400">Billing Address</h2>
           <div className="flex flex-row justify-end">
-            <button className="mt-2 px-4 py-2 bg-yellow-500 text-white rounded">Show Purchases</button>
-            <button className="mt-2 ml-2 px-4 py-2 bg-blue-600 text-white rounded">Add Billing Address</button>
+            <button
+              className="mt-2 px-4 py-2 bg-yellow-500 text-white rounded"
+              onClick={() => setPurchasesDialogOpen(true)}>Show Purchases
+            </button>
+            <button
+              className="mt-2 ml-2 px-4 py-2 bg-blue-600 text-white rounded"
+              onClick={() => setAddBillingDialogOpen(true)}>Add Billing Address
+            </button>
           </div>
 
           <div className="mt-4 border-t pt-2">
@@ -116,6 +167,33 @@ const AccountInformation = () => {
           </div>
         </div>
       </div>
+
+      {/* New Message Dialog */}
+      <BuyNow
+        open={buyDialogOpen}
+        handleClose={handleBuyClose}
+      />
+
+      <AddStorage
+        open={addStorageDialogOpen}
+        handleClose={handleAddStorageClose}
+      />
+
+      <StorageArea
+        open={storageAreaDialogOpen}
+        handleClose={handleStorageAreaClose}
+      />
+
+      <Purchases
+        open={purchasesDialogOpen}
+        handleClose={handlePurchasesClose}
+      />
+
+      <AddBilling
+        open={addBillingDialogOpen}
+        handleClose={handleAddBillingClose}
+      />
+
     </div>
   )
 }

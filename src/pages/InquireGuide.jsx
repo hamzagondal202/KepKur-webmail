@@ -93,13 +93,20 @@ const InquireGuide = () => {
           ]).map(({ label, name }, index) => (
             <div key={index} className="flex items-center">
               <label className="w-1/2">{label}</label>
-              <input
-                type="text"
+              {label == "Phone Number" ? <input
+                type="number"
                 name={name}
                 value={activeTab === "realPerson" ? realPersonData[name] : legalEntityData[name]}
                 onChange={(e) => handleChange(e, activeTab)}
-                className="border p-2 w-full mr-40 rounded-md"
-              />
+                className="border p-2 w-full mr-40 rounded-md [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              /> :
+                <input
+                  type="text"
+                  name={name}
+                  value={activeTab === "realPerson" ? realPersonData[name] : legalEntityData[name]}
+                  onChange={(e) => handleChange(e, activeTab)}
+                  className="border p-2 w-full mr-40 rounded-md"
+                />}
             </div>
           ))}
         </div>
