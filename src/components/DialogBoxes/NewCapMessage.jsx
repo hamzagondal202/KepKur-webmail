@@ -31,6 +31,7 @@ const redoChange = () => {
 
 const modules = {
   toolbar: {
+
     container: [
       // [{ undo: "custom" }, { redo: "custom" }], // Custom Undo/Redo
       ["bold", "italic", "underline", "strike"],
