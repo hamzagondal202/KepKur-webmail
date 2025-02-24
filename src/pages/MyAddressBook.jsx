@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { Button } from "@mui/material";
-import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
+import AddAddressDialog from "../components/DialogBoxes/AddAddress";
 import { useTranslation } from "react-i18next";
 
 const MyAddressBook = () => {
@@ -144,7 +144,7 @@ const MyAddressBook = () => {
       </div>
 
       {/* New Message Dialog */}
-      <NewCapMessageDialog
+      <AddAddressDialog
         open={dialogOpen}
         handleClose={handleClose}
       />
