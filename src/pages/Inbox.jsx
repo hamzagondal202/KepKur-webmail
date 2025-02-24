@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSearch, FaPlus, FaSyncAlt } from "react-icons/fa";
-// import { NewMessageDialog } from "../components/DialogBoxes/Dialog";
 import { Button } from "@mui/material";
 import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
+import { useTranslation } from "react-i18next";
+import { getInboxItems } from "../services/InboxService";
+
 const Inbox = () => {
+  const { t } = useTranslation();
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchParams, setSearchParams] = useState({
     readStatus: "",
@@ -13,6 +17,10 @@ const Inbox = () => {
     startDate: "",
     endDate: "",
   });
+  const [data, setData] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
+  const [rowChecked, setRowChecked] = useState({});
+  const [reloadTrigger, setReloadTrigger] = useState(0);
 
   const handleChange = (e) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
@@ -22,33 +30,66 @@ const Inbox = () => {
     setDialogOpen(false);
   };
 
+  const handleHeaderCheckboxChange = (e) => {
+    const checked = e.target.checked;
+    setIsChecked(checked);
+    const newRowChecked = data.reduce((acc, item) => {
+      acc[item.id] = checked;
+      return acc;
+    }, {});
+    setRowChecked(newRowChecked);
+  };
+
+  const handleRowCheckboxChange = (e, id) => {
+    const checked = e.target.checked;
+    setRowChecked((prev) => ({
+      ...prev,
+      [id]: checked,
+    }));
+  };
+
+  // Function to fetch inbox data
+  const fetchData = async () => {
+    try {
+      const response = await getInboxItems(); // Fetch data
+      if (response && response.emails) {
+        setData(response.emails);
+      } else {
+        setData([]); // Default to empty array
+      }
+    } catch (error) {
+      console.error("Error fetching inbox items:", error);
+      setData([]);
+    }
+  };
+
+  // Fetch data when component mounts or when reloadTrigger changes
+  useEffect(() => {
+    fetchData();
+  }, [reloadTrigger]);
 
   return (
     <div className={`transition-all duration-300 p-6 bg-gray-100 min-h-screen`}>
-      {/* Header */}
-      <h1 className="text-2xl font-bold mb-4">Inbox</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("inbox")}</h1>
 
-      {/* Search Filters */}
       <div className="grid grid-cols-6 gap-4 mb-4">
-        {/* Dropdown for Read Status */}
         <select
           name="readStatus"
           value={searchParams.readStatus}
           onChange={handleChange}
           className="border p-2 rounded"
         >
-          <option value="">Read Status</option>
-          <option value="read">Read</option>
-          <option value="unread">Unread</option>
+          <option value="">{t("readStatus")}</option>
+          <option value="read">{t("read")}</option>
+          <option value="unread">{t("unread")}</option>
         </select>
 
-        {/* Input Fields */}
         <input
           type="text"
           name="subject"
           value={searchParams.subject}
           onChange={handleChange}
-          placeholder="Subject"
+          placeholder={t("subject")}
           className="border p-2 rounded"
         />
         <input
@@ -56,7 +97,7 @@ const Inbox = () => {
           name="sender"
           value={searchParams.sender}
           onChange={handleChange}
-          placeholder="Sender"
+          placeholder={t("sender")}
           className="border p-2 rounded"
         />
         <input
@@ -64,17 +105,16 @@ const Inbox = () => {
           name="buyers"
           value={searchParams.buyers}
           onChange={handleChange}
-          placeholder="Buyers"
+          placeholder={t("buyers")}
           className="border p-2 rounded"
         />
 
-        {/* Date Fields */}
         <input
           type="date"
           name="startDate"
           value={searchParams.startDate}
           onChange={handleChange}
-          placeholder="Start Date"
+          placeholder={t("startDate")}
           className="border p-2 rounded"
         />
         <input
@@ -82,20 +122,17 @@ const Inbox = () => {
           name="endDate"
           value={searchParams.endDate}
           onChange={handleChange}
-          placeholder="End Date"
+          placeholder={t("endDate")}
           className="border p-2 rounded"
         />
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex items-center space-x-4 mb-4">
-        {/* Search Button */}
+      <div className="flex items-center justify-between mb-4 me-6">
         <button className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-md shadow-md">
           <FaSearch />
-          <span>We buy</span>
+          <span>{t("weBuy")}</span>
         </button>
 
-        {/* New Cap Message Button */}
         <Button
           className="flex items-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-md shadow-md"
           variant="contained"
@@ -103,45 +140,68 @@ const Inbox = () => {
           onClick={() => setDialogOpen(true)}
         >
           <FaPlus />
-          <span>New Cap Message</span>
+          <span>{t("newCapMessage")}</span>
         </Button>
+      </div>
 
-        {/* Refresh Button */}
-        <button className="bg-green-500 text-white p-2 rounded-md shadow-md">
+      <div className="flex flex-row items-end justify-end mb-2">
+        <button onClick={() => setReloadTrigger((prev) => prev + 1)} className="bg-green-500 text-white p-2 rounded-md shadow-md">
           <FaSyncAlt />
         </button>
       </div>
 
-      {/* Table */}
       <div className="border rounded-md shadow-md overflow-hidden bg-white">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-gray-100">
+          <thead>
             <tr>
-              <th className="p-3 border bg-white">Read Status</th>
-              <th className="p-3 border bg-white">Subject</th>
-              <th className="p-3 border bg-white">Sender</th>
-              <th className="p-3 border bg-white">Buyers</th>
-              <th className="p-3 border bg-white">Post Date</th>
+              <th className="p-3 w-0">
+                <input
+                  type="checkbox"
+                  className="w-6 h-6"
+                  checked={isChecked}
+                  onChange={handleHeaderCheckboxChange}
+                />
+              </th>
+              <th className="p-3">{t("readStatus")}</th>
+              <th className="p-3">{t("subject")}</th>
+              <th className="p-3">{t("sender")}</th>
+              <th className="p-3">{t("buyers")}</th>
+              <th className="p-3">{t("postDate")}</th>
             </tr>
           </thead>
           <tbody>
-            {/* No Record Found */}
-            <tr>
-              <td colSpan={5} className="text-center p-4 text-gray-500">
-                No record found
-              </td>
-            </tr>
+            {data.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="text-center p-4 text-gray-500">
+                  {t("noRecordFound")}
+                </td>
+              </tr>
+            ) : (
+              data.map((item) => (
+                <tr key={item.id} className="border">
+                  <td className="p-3 w-0">
+                    <input
+                      type="checkbox"
+                      className="w-6 h-6"
+                      checked={rowChecked[item.id] || false}
+                      onChange={(e) => handleRowCheckboxChange(e, item.id)}
+                    />
+                  </td>
+                  <td className="p-3">{item.status}</td>
+                  <td className="p-3">{item.subject}</td>
+                  <td className="p-3">{item.sender}</td>
+                  <td className="p-3">{item.Buyer}</td>
+                  <td className="p-3">{item.received_date}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
-      {/* New Message Dialog */}
-      <NewCapMessageDialog
-        open={dialogOpen}
-        handleClose={handleClose}
-      />
+      <NewCapMessageDialog open={dialogOpen} handleClose={handleClose} />
     </div>
   );
-}
+};
 
 export default Inbox;

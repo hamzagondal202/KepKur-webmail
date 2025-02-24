@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react"; // Icons for dropdown
-import { useSidebar } from "../../src/contextApi/SideBarContext";
+import { useSidebar } from "../context/SideBarContext";
+import { useTranslation } from "react-i18next";
 
 export default function Sidebar() {
-  const location = useLocation();  // Get the current route
+  const location = useLocation();
+  const { isSidebarOpen } = useSidebar();
+  const { t } = useTranslation();
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
 
-  const { isSidebarOpen } = useSidebar(); 
-
-  const [isAccountOpen, setIsAccountOpen] = useState(false)
   // Function to check if the current route matches the link
   const getActiveClass = (path) => {
-    return location.pathname === path ? "bg-gray-100 text-gray-700" : "bg-white text-gray-700"; // Highlight active link
+    return location.pathname === path ? "bg-gray-100 text-gray-700" : "bg-white text-gray-700";
   };
 
   return (
@@ -20,71 +21,71 @@ export default function Sidebar() {
         <ul>
           <li className={`p-2 border-b ${getActiveClass("/inbox")}`}>
             <Link to="/inbox" className='block py-2 px-4 rounded-md'>
-              Inbox
+              {t("inbox")}
             </Link>
           </li>
           <li className={`p-2 border-b ${getActiveClass("/outbox")}`}>
             <Link to="/outbox" className='block py-2 px-4 rounded-md'>
-              Outbox
+              {t("outbox")}
             </Link>
           </li>
           <li className={`p-2 border-b ${getActiveClass("/drafts")}`}>
             <Link to="/drafts" className='block py-2 px-4 rounded-md'>
-              Drafts
+              {t("drafts")}
             </Link>
           </li>
           <li className={`p-2 border-b ${getActiveClass("/evidence-box")}`}>
             <Link to="/evidence-box" className='block py-2 px-4 rounded-md'>
-              Evidence Box
+              {t("evidence-box")}
             </Link>
           </li>
           <li className={`p-2 border-b ${getActiveClass("/bin")}`}>
             <Link to="/bin" className='block py-2 px-4 rounded-md'>
-              Bin
+              {t("bin")}
             </Link>
           </li>
           <li className={`p-2 border-b ${getActiveClass("/my-address-book")}`}>
             <Link to="/my-address-book" className='block py-2 px-4 rounded-md'>
-              My Address Book
+              {t("my-address-book")}
             </Link>
           </li>
           <li className={`p-2 border-b ${getActiveClass("/verify-evidence")}`}>
             <Link to="/verify-evidence" className='block py-2 px-4 rounded-md'>
-              Verify Evidence 
+              {t("verify-evidence")}
             </Link>
           </li>
           <li className={`p-2 border-b ${getActiveClass("/inquire-guide")}`}>
             <Link to="/inquire-guide" className='block py-2 px-4 rounded-md'>
-              Inquire Guide
+              {t("inquire-guide")}
             </Link>
           </li>
 
-             {/* Parent Link with Dropdown */}
-             <li className="p-2 border-b">
+          {/* Parent Link with Dropdown */}
+          <li className="p-2 border-b">
             <button
               onClick={() => setIsAccountOpen(!isAccountOpen)}
               className="w-full flex justify-between items-center py-2 px-4 rounded-md bg-white text-gray-700"
             >
-              Account Transactions {isAccountOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              {t("account-transactions")} {isAccountOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
 
             {/* Sublinks - Only show when isAccountOpen is true */}
             {isAccountOpen && (
               <ul className="pl-6 mt-2 space-y-1">
                 <li className={getActiveClass("/account-holder-information")}>
-                  <Link to="/account-holder-information" className="block py-2 px-4 rounded-md">Account Holder Information</Link>
+                  <Link to="/account-holder-information" className="block py-2 px-4 rounded-md">{t("account-holder-information")}</Link>
                 </li>
                 <li className={getActiveClass("/account-information")}>
-                  <Link to="/account-information" className="block py-2 px-4 rounded-md">Account Information</Link>
+                  <Link to="/account-information" className="block py-2 px-4 rounded-md">{t("account-information")}</Link>
                 </li>
                 <li className={getActiveClass("/user-information")}>
-                  <Link to="/user-information" className="block py-2 px-4 rounded-md">User Information</Link>
+                  <Link to="/user-information" className="block py-2 px-4 rounded-md">{t("user-information")}</Link>
                 </li>
                 <li className={getActiveClass("/account-logs")}>
-                  <Link to="/account-logs" className="block py-2 px-4 rounded-md">Account Logs</Link>
+                  <Link to="/account-logs" className="block py-2 px-4 rounded-md">{t("account-logs")}</Link>
                 </li>
                 <li className={getActiveClass("/account-closure")}>
-                  <Link to="/account-closure" className="block py-2 px-4 rounded-md">Account Closure</Link>
+                  <Link to="/account-closure" className="block py-2 px-4 rounded-md">{t("account-closure")}</Link>
                 </li>
               </ul>
             )}
