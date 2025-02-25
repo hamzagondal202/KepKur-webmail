@@ -82,7 +82,7 @@ const Inbox = () => {
           name="readStatus"
           value={searchParams.readStatus}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border p-2 rounded h-11 mt-6"
         >
           <option value="">{t("readStatus")}</option>
           <option value="read">{t("read")}</option>
@@ -95,7 +95,7 @@ const Inbox = () => {
           value={searchParams.subject}
           onChange={handleChange}
           placeholder={t("subject")}
-          className="border p-2 rounded"
+          className="border p-2 rounded h-11 mt-6"
         />
         <input
           type="text"
@@ -103,7 +103,7 @@ const Inbox = () => {
           value={searchParams.sender}
           onChange={handleChange}
           placeholder={t("sender")}
-          className="border p-2 rounded"
+          className="border p-2 rounded h-11 mt-6"
         />
         <input
           type="text"
@@ -111,25 +111,31 @@ const Inbox = () => {
           value={searchParams.buyers}
           onChange={handleChange}
           placeholder={t("buyers")}
-          className="border p-2 rounded"
+          className="border p-2 rounded h-11 mt-6"
         />
 
-        <input
-          type="date"
-          name="startDate"
-          value={searchParams.startDate}
-          onChange={handleChange}
-          placeholder={t("startDate")}
-          className="border p-2 rounded"
-        />
-        <input
-          type="date"
-          name="endDate"
-          value={searchParams.endDate}
-          onChange={handleChange}
-          placeholder={t("endDate")}
-          className="border p-2 rounded"
-        />
+        <div className="flex flex-col">
+          <div className="font-semibold pl-1">Start</div>
+          <input
+            type="date"
+            name="startDate"
+            value={searchParams.startDate}
+            onChange={handleChange}
+            placeholder={t("startDate")}
+            className="border p-2 rounded"
+          />
+        </div>
+        <div className="flex flex-col">
+          <div className="font-semibold pl-1">End</div>
+          <input
+            type="date"
+            name="endDate"
+            value={searchParams.endDate}
+            onChange={handleChange}
+            placeholder={t("endDate")}
+            className="border p-2 rounded"
+          />
+        </div>
       </div>
 
       <div className="flex items-center justify-between mb-4 me-6">

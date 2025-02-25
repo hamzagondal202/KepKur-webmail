@@ -3,12 +3,14 @@ import { FaPlus, FaTrash } from "react-icons/fa";
 import { Button } from "@mui/material";
 import AddAddressDialog from "../components/DialogBoxes/AddAddress";
 import { useTranslation } from "react-i18next";
+import { LoaderCircle } from "lucide-react";
 
 const MyAddressBook = () => {
   const { t } = useTranslation();
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
   const [rowChecked, setRowChecked] = useState({});
 
@@ -40,6 +42,7 @@ const MyAddressBook = () => {
 
   useEffect(() => {
     // Simulate fetching data with a delay (replace with your actual API call)
+    setLoading(true);
     setTimeout(() => {
       setData([
         {
@@ -70,6 +73,7 @@ const MyAddressBook = () => {
           address: '789 Oak St, Capital City',
         },
       ]);
+      setLoading(false);
     }, 2000);
   }, []);
 
@@ -109,7 +113,15 @@ const MyAddressBook = () => {
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
+            {isLoading ? (
+              <tr>
+                <td colSpan={6} className="p-4">
+                  <div className="flex justify-center items-center">
+                    <LoaderCircle color="#2563eb" className="w-8 h-8 animate-spin text-blue-600" />
+                  </div>
+                </td>
+              </tr>
+            ) : (data.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center p-4 text-gray-500">
                   {t("noRecordFound")}
@@ -138,6 +150,7 @@ const MyAddressBook = () => {
                   </td>
                 </tr>
               ))
+            )
             )}
           </tbody>
         </table>

@@ -92,7 +92,7 @@ const Drafts = () => {
           value={searchParams.subject}
           onChange={handleChange}
           placeholder={t("subject")}
-          className="border p-2 rounded"
+          className="border p-2 rounded h-11 mt-6"
         />
         <input
           type="text"
@@ -100,26 +100,33 @@ const Drafts = () => {
           value={searchParams.buyers}
           onChange={handleChange}
           placeholder={t("buyers")}
-          className="border p-2 rounded"
+          className="border p-2 rounded h-11 mt-6"
         />
 
-        {/* Date Fields */}
-        <input
-          type="date"
-          name="startDate"
-          value={searchParams.startDate}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="date"
-          name="endDate"
-          value={searchParams.endDate}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+        <div className="flex flex-col">
+          <div className="font-semibold pl-1">Start</div>
+          <input
+            type="date"
+            name="startDate"
+            value={searchParams.startDate}
+            onChange={handleChange}
+            placeholder={t("startDate")}
+            className="border p-2 rounded"
+          />
+        </div>
+        <div className="flex flex-col">
+          <div className="font-semibold pl-1">End</div>
+          <input
+            type="date"
+            name="endDate"
+            value={searchParams.endDate}
+            onChange={handleChange}
+            placeholder={t("endDate")}
+            className="border p-2 rounded"
+          />
+        </div>
 
-        <div className="flex flex-row justify-between col-span-2 me-6">
+        <div className="flex flex-row justify-between col-span-2 me-6 h-11 mt-6">
           <button className="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-md shadow-md">
             <FaSearch />
             <span>{t("weBuy")}</span>
