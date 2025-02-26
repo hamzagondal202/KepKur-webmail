@@ -1,3 +1,4 @@
+import { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -8,65 +9,54 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  Box,
+  Box
 } from "@mui/material";
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import JoditEditor from "jodit-react";
 
-const undoChange = () => {
-  const editor = document.querySelector(".ql-editor");
-  if (editor) {
-    editor.dispatchEvent(new KeyboardEvent("keydown", { key: "z", ctrlKey: true }));
-  }
-};
-
-const redoChange = () => {
-  const editor = document.querySelector(".ql-editor");
-  if (editor) {
-    editor.dispatchEvent(new KeyboardEvent("keydown", { key: "y", ctrlKey: true }));
-  }
-};
-
-const modules = {
-  toolbar: {
-
-    container: [
-      // [{ undo: "custom" }, { redo: "custom" }], // Custom Undo/Redo
-      ["bold", "italic", "underline", "strike"],
-      [{ align: [] }],
-      [{ list: "ordered" }, { list: "bullet" }],
-      [{ indent: "-1" }, { indent: "+1" }],
-      [{ script: "sub" }, { script: "super" }],
-      [{ color: [] }, { background: [] }],
-      ["link", "image"],
-      [{ font: [] }],
-      [{ size: [] }],
-      ["clean"],
-    ],
-    handlers: {
-      undo: undoChange,
-      redo: redoChange,
-    },
-  },
-};
-
-
-// eslint-disable-next-line react/prop-types
 const NewCapMessageDialog = ({ open, handleClose }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation(); // Get translation instance
+  const editor = useRef(null);
+  const messageRef = useRef(""); // Store message without triggering re-renders
 
-  const [message, setMessage] = useState("");
+  // Get current language from i18n
+  const currentLang = i18n.language || "en";
+
+  // Memoized Jodit Config with dynamic language
+  const config = useMemo(() => ({
+    language: currentLang, // Set Jodit's language
+    uploader: { insertImageAsBase64URI: true },
+    disablePlugins: "about,ai-assistant,powered-by-jodit,speech-recognize,spellcheck",
+    buttons:
+      "bold,italic,underline,strikethrough,eraser,ul,ol,font,fontsize,paragraph,lineHeight,superscript,subscript,cut,copy,paste,selectall,copyformat",
+  }), [currentLang]); // Recalculate config when language changes
+
   const [receiver, setReceiver] = useState("");
   const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState(""); // Only update on blur
+
+  // Update state only when the user leaves the editor
+  const handleBlur = useCallback(() => {
+    setMessage(messageRef.current);
+  }, []);
+
+  // Focus Jodit when dialog opens
+  useEffect(() => {
+    if (open && editor.current) {
+      setTimeout(() => editor.current?.workplace?.focus(), 50);
+    }
+  }, [open]);
+
+  const handleCloseDialog = useCallback(() => {
+    editor.current?.editor?.blur(); // Remove focus
+    handleClose(); // Close dialog
+  }, [handleClose]);
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
-      <DialogTitle>Olustur Island</DialogTitle>
+    <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="md" keepMounted>
+      <DialogTitle>{t("createMessage")}</DialogTitle>
       <DialogContent>
-        {/* Receiver & Subject Section */}
-
+        {/* Receiver & Subject Fields */}
         <div className="flex flex-row gap-4">
           <div className="flex flex-col w-full">
             <TextField
@@ -76,13 +66,6 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
               margin="dense"
               value={receiver}
               onChange={(e) => setReceiver(e.target.value)}
-              className="text-sm h-10"
-              InputProps={{
-                style: { fontSize: '0.875rem', height: '36px' }, // Tailwind equivalent of text-sm, h-9
-              }}
-              InputLabelProps={{
-                style: { fontSize: '0.75rem' }, // Label smaller
-              }}
             />
             <TextField
               fullWidth
@@ -91,24 +74,9 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
               margin="dense"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="text-sm h-10"
-              InputProps={{
-                style: { fontSize: '0.875rem', height: '36px' },
-              }}
-              InputLabelProps={{
-                style: { fontSize: '0.75rem' },
-              }}
             />
           </div>
-          <div className="mt-1.5">
-            <button
-              className="h-9 w-28 text-sm px-2 border rounded-md bg-orange-500 text-white hover:bg-orange-600"
-            >
-              {t("select-address")}
-            </button>
-          </div>
         </div>
-
 
         {/* Radio Buttons */}
         <RadioGroup row defaultValue="standard">
@@ -116,36 +84,31 @@ const NewCapMessageDialog = ({ open, handleClose }) => {
           <FormControlLabel value="e-correspondence" control={<Radio />} label={t("e-correspondence")} />
         </RadioGroup>
 
-        {/* Rich Text Editor */}
-        <ReactQuill
-          value={message}
-          onChange={setMessage}
-          theme="snow"
-          modules={modules}
-          style={{ height: "200px" }}
+        {/* Jodit Rich Text Editor */}
+        <JoditEditor
+          ref={editor}
+          config={config} // Updated config with language
+          onChange={(newContent) => (messageRef.current = newContent)}
+          onBlur={handleBlur}
         />
 
         {/* Add File Button */}
-        <Box mt={8}>
-          <Button variant="contained" component="label" sx={{ backgroundColor: "#E0E0E0", color: "black" }}>
+        <Box mt={2}>
+          <Button variant="contained" component="label">
             {t("add-file")}
             <input type="file" hidden />
           </Button>
         </Box>
       </DialogContent>
 
-      <DialogActions sx={{ padding: "16px" }}>
-        <Button variant="contained" color="error" onClick={handleClose}>
+      <DialogActions>
+        <Button variant="contained" color="error" onClick={handleCloseDialog}>
           {t("give-up")}
         </Button>
         <Button variant="contained" color="success">
           {t("save-to-draft")}
         </Button>
-        <Button
-          variant="contained"
-          disabled={!receiver || !subject || !message.trim()}
-          sx={{ backgroundColor: "#BDBDBD" }}
-        >
+        <Button variant="contained" disabled={!receiver || !subject || !message.trim()}>
           {t("send")}
         </Button>
       </DialogActions>

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { FaSearch, FaSyncAlt } from "react-icons/fa";
-import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
+import CapDetail from "../components/DialogBoxes/CapDetail";
 import { useTranslation } from "react-i18next";
 
 const EvidenceBox = () => {
   const { t } = useTranslation();
 
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [capDetailDialogOpen, setCapDetailDialogOpen] = useState(false);
   const [searchParams, setSearchParams] = useState({
     readStatus: "",
     subject: "",
@@ -19,13 +19,14 @@ const EvidenceBox = () => {
   const [data, setData] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [rowChecked, setRowChecked] = useState({});
+  
 
   const handleChange = (e) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
   };
 
-  const handleClose = () => {
-    setDialogOpen(false);
+  const handleCapDetailClose = () => {
+    setCapDetailDialogOpen(false);
   };
 
 
@@ -198,7 +199,7 @@ const EvidenceBox = () => {
               </tr>
             ) : (
               data.map((item) => (
-                <tr key={item.id} className="border">
+                <tr key={item.id} className="border" onClick={() => setCapDetailDialogOpen(true)}>
                   <td className="p-2 w-0">
                     <input type="checkbox" className="w-5 h-5 mt-1"
                       checked={rowChecked[item.id] || false} // Bind row checkbox to individual state
@@ -216,9 +217,9 @@ const EvidenceBox = () => {
       </div>
 
       {/* New Message Dialog */}
-      <NewCapMessageDialog
-        open={dialogOpen}
-        handleClose={handleClose}
+      <CapDetail
+        open={capDetailDialogOpen}
+        handleClose={handleCapDetailClose}
       />
     </div>
   );

@@ -65,5 +65,6 @@
     "receiver": "Receiver",
     "standard": "Standard",
     "e-correspondence": "E-Correspondence",
-    "upload-file": "Upload file"
+    "upload-file": "Upload file",
+    "createMessage": "Create Message"
 }
