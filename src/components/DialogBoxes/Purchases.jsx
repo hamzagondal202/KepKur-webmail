@@ -2,8 +2,6 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogActions,
-    Button,
     Table,
     TableBody,
     TableCell,
@@ -14,10 +12,12 @@ import {
     IconButton,
   } from "@mui/material";
   import CloseIcon from "@mui/icons-material/Close";
+import { useTranslation } from "react-i18next";
   
   // eslint-disable-next-line react/prop-types
   const Purchases = ({ open, handleClose }) => {
   
+    const {t} = useTranslation()
     const transactions = Array(7).fill({
         transDate: "3.10.2024 14:22",
         prodName: "GonderAI",
@@ -28,7 +28,7 @@ import {
     return (
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle className="flex justify-between items-center">
-          <strong>Purchases</strong>
+          <strong>{t("purchases")}</strong>
           <IconButton onClick={handleClose}>
             <CloseIcon />
           </IconButton>
@@ -39,10 +39,10 @@ import {
             <Table>
               <TableHead>
                 <TableRow className="bg-gray-100">
-                  <TableCell><strong>Transaction Date</strong></TableCell>
-                  <TableCell><strong>Payment Confirmation Code</strong></TableCell>
-                  <TableCell><strong>Product Name</strong></TableCell>
-                  <TableCell><strong>Subscription Code</strong></TableCell>
+                  <TableCell><strong>{t("transaction-date")}</strong></TableCell>
+                  <TableCell><strong>{t("payment-confirmation-code")}</strong></TableCell>
+                  <TableCell><strong>{t("product-name")}</strong></TableCell>
+                  <TableCell><strong>{t("subscription-code")}</strong></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -58,12 +58,7 @@ import {
             </Table>
           </TableContainer>
         </DialogContent>
-  
-        <DialogActions>
-          <Button onClick={handleClose} color="error" variant="contained">
-            Close
-          </Button>
-        </DialogActions>
+
       </Dialog>
     );
   };

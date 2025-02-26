@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 // import { NewMessageDialog } from "../components/DialogBoxes/Dialog";
 import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
 const AccountLogs = () => {
+  const { t } = useTranslation();
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [searchParams, setSearchParams] = useState({
     readStatus: "",
@@ -88,7 +91,7 @@ const AccountLogs = () => {
   return (
     <div className={`transition-all duration-300 p-6 bg-gray-100 min-h-screen`}>
       {/* Header */}
-      <h1 className="text-2xl font-bold mb-4">User Logs</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("user-logs")}</h1>
 
       {/* Search Filters */}
       <div className="grid grid-cols-6 gap-4 mb-4">
@@ -98,7 +101,7 @@ const AccountLogs = () => {
           name="subject"
           value={searchParams.subject}
           onChange={handleChange}
-          placeholder="Subject"
+          placeholder={t("subject")}
           className="border p-2 rounded"
         />
         <input
@@ -106,7 +109,7 @@ const AccountLogs = () => {
           name="buyers"
           value={searchParams.buyers}
           onChange={handleChange}
-          placeholder="Buyers"
+          placeholder={t("buyers")}
           className="border p-2 rounded"
         />
 
@@ -129,7 +132,7 @@ const AccountLogs = () => {
         <div className="flex flex-row justify-between col-span-2 me-6">
           <button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-md shadow-md">
             <FaSearch />
-            <span>We buy</span>
+            <span>{t("weBuy")}</span>
           </button>
         </div>
 
@@ -146,16 +149,16 @@ const AccountLogs = () => {
                   checked={isChecked}  // Bind header checkbox to isChecked state
                   onChange={handleHeaderCheckboxChange} />
               </th>
-              <th className="p-3">process</th>
-              <th className="p-3">Explanation</th>
-              <th className="p-3">History</th>
+              <th className="p-3">{t("process")}</th>
+              <th className="p-3">{t("explanation")}</th>
+              <th className="p-3">{t("history")}</th>
             </tr>
           </thead>
           <tbody>
             {data.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center p-4 text-gray-500">
-                  No record found
+                  {t("no-record-found")}
                 </td>
               </tr>
             ) : (

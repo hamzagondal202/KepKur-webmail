@@ -2,7 +2,6 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogActions,
     Button,
     Table,
     TableBody,
@@ -15,9 +14,12 @@ import {
   } from "@mui/material";
   import AddIcon from "@mui/icons-material/Add";
   import CloseIcon from "@mui/icons-material/Close";
+import { useTranslation } from "react-i18next";
   
   // eslint-disable-next-line react/prop-types
   const AddStorageDialog = ({ open, handleClose }) => {
+    const {t} = useTranslation()
+
     const creditPackages = [
       { id: 1, product: "250MB ( 4 Credits / month )"},
       { id: 3, product: "500MB ( 7 Credits / week )"},
@@ -30,7 +32,7 @@ import {
     return (
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle className="flex justify-between items-center">
-          <strong>Add Storage</strong>
+          <strong>{t("add-storage")}</strong>
           <IconButton onClick={handleClose}>
             <CloseIcon />
           </IconButton>
@@ -42,7 +44,7 @@ import {
             <Table>
               <TableHead>
                 <TableRow className="bg-gray-100">
-                  <TableCell><strong>Product</strong></TableCell>
+                  <TableCell><strong>{t("product")}</strong></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -52,7 +54,7 @@ import {
                     <TableCell>{item.product}</TableCell>
                     <TableCell>
                       <Button variant="contained" color="success" startIcon={<AddIcon />}>
-                        Add
+                        {t("add")}
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -65,14 +67,14 @@ import {
             <Table>
               <TableHead>
                 <TableRow className="bg-gray-100">
-                  <TableCell><strong>Explanation</strong></TableCell>
-                  <TableCell><strong>Storage Area</strong></TableCell>
-                  <TableCell><strong>History</strong></TableCell>
+                  <TableCell><strong>{t("explanation")}</strong></TableCell>
+                  <TableCell><strong>{t("storage-area")}</strong></TableCell>
+                  <TableCell><strong>{t("history")}</strong></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
               <TableRow>
-                    <TableCell>No record found</TableCell>
+                    <TableCell>{("no-record-found")}</TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                   </TableRow>
@@ -81,11 +83,6 @@ import {
           </TableContainer>
         </DialogContent>
   
-        <DialogActions>
-          <Button onClick={handleClose} color="error" variant="contained">
-            Close
-          </Button>
-        </DialogActions>
       </Dialog>
     );
   };

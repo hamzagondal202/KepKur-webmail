@@ -1,7 +1,10 @@
 import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const InquireGuide = () => {
+  const { t } = useTranslation();
+
   const [activeTab, setActiveTab] = useState("realPerson");
 
   const [realPersonData, setRealPersonData] = useState({
@@ -56,13 +59,13 @@ const InquireGuide = () => {
           className={`pb-2 border-b-4 font-semibold ${activeTab === "realPerson" ? "border-blue-600" : "text-gray-500"}`}
           onClick={() => setActiveTab("realPerson")}
         >
-          Real Person Inquiry
+          {t("real-person-inquiry")}
         </button>
         <button
           className={`pb-2 border-b-4 font-semibold ${activeTab === "legalEntity" ? "border-blue-600" : "text-gray-500"}`}
           onClick={() => setActiveTab("legalEntity")}
         >
-          Legal Entity Inquiry
+          {t("legal-entity-inquiry")}
         </button>
       </div>
 
@@ -70,26 +73,26 @@ const InquireGuide = () => {
       <div className="mt-4">
         <div className="space-y-4">
           {(activeTab === "realPerson" ? [
-            { label: "KEP Account Address", name: "kepAccountAddress" },
-            { label: "Ad", name: "ad" },
-            { label: "Last Name", name: "lastName" },
-            { label: "Street", name: "street" },
-            { label: "How to Get Service", name: "howToGetService" },
-            { label: "District", name: "district" },
-            { label: "City", name: "city" },
-            { label: "Phone Number", name: "phoneNumber" },
-            { label: "Title", name: "title" },
+            { label: t("kep-account-address"), name: "kepAccountAddress" },
+            { label: t("ad"), name: "ad" },
+            { label: t("last-name"), name: "lastName" },
+            { label: t("street"), name: "street" },
+            { label: t("how-to-get-service"), name: "howToGetService" },
+            { label: t("district"), name: "district" },
+            { label: t("city"), name: "city" },
+            { label: t("phone-number"), name: "phoneNumber" },
+            { label: t("title"), name: "title" },
           ] : [
-            { label: "KEP Account Address", name: "kepAccountAddress" },
-            { label: "No Sinking", name: "noSinking" },
-            { label: "Tax Number", name: "taxNumber" },
-            { label: "Full Name of Legal Entity", name: "fullNameOfLegalEntity" },
-            { label: "Main Field of Activity", name: "mainFieldOfActivity" },
-            { label: "Province Where Center Is Located", name: "provinceWhereCenterIsLocated" },
-            { label: "Address Information", name: "addressInformation" },
-            { label: "Transaction Authorized TC", name: "transactionAuthorizedTC" },
-            { label: "Full Name of the Transaction Authority", name: "fullNameOfTheTransactionAuthority" },
-            { label: "Title of the Processing Officer", name: "titleOfTheProcessingOfficer" },
+            { label: t("kep-account-address"), name: "kepAccountAddress" },
+            { label: t("no-sinking"), name: "noSinking" },
+            { label: t("tax-number"), name: "taxNumber" },
+            { label: t("full-name-of-legal-entity"), name: "fullNameOfLegalEntity" },
+            { label: t("main-field-of-activity"), name: "mainFieldOfActivity" },
+            { label: t("province-Where-center-is-located"), name: "provinceWhereCenterIsLocated" },
+            { label: t("address-information"), name: "addressInformation" },
+            { label: t("transaction-authorized-tc"), name: "transactionAuthorizedTC" },
+            { label: t("full-name-of-the-transaction-authority"), name: "fullNameOfTheTransactionAuthority" },
+            { label: t("title-of-the-processing-officer"), name: "titleOfTheProcessingOfficer" },
           ]).map(({ label, name }, index) => (
             <div key={index} className="flex items-center">
               <label className="w-1/2">{label}</label>
@@ -115,7 +118,7 @@ const InquireGuide = () => {
       {/* Search Button */}
       <div className="flex justify-end mt-4">
         <button onClick={handleSearch} className="bg-green-600 text-white px-4 py-2 flex items-center rounded-md">
-          <FaSearch className="mr-1" /> Search
+          <FaSearch className="mr-1" /> {t("search")}
         </button>
       </div>
 
@@ -125,8 +128,8 @@ const InquireGuide = () => {
           <thead>
             <tr className="border-b">
               {(activeTab === "realPerson"
-                ? ["Account Name", "Account Status", "Ad", "Last Name"]
-                : ["Account name", "Account Status", "Customer Name"]
+                ? [t("account-name"), t("account-status"), t("ad"), t("last-name")]
+                : [t("account-name"), t("account-status"), t("customer-name")]
               ).map((header, index) => (
                 <th key={index} className="p-2 text-left">{header}</th>
               ))}

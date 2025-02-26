@@ -14,6 +14,7 @@ import {
 import { useTranslation } from "react-i18next";
 import JoditEditor from "jodit-react";
 
+// eslint-disable-next-line react/prop-types
 const NewCapMessageDialog = ({ open, handleClose }) => {
   const { t, i18n } = useTranslation(); // Get translation instance
   const editor = useRef(null);

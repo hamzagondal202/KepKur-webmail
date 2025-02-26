@@ -2,8 +2,6 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
-    DialogActions,
-    Button,
     Table,
     TableBody,
     TableCell,
@@ -14,10 +12,12 @@ import {
     IconButton,
   } from "@mui/material";
   import CloseIcon from "@mui/icons-material/Close";
+import { useTranslation } from "react-i18next";
   
   // eslint-disable-next-line react/prop-types
   const StorageArea = ({ open, handleClose }) => {
   
+    const {t} = useTranslation()
     const transactions = Array(7).fill({
         explanation: "[KEP Evidence: Accepted by HS06] [KEP Message] evidence ...   ",
         transfer: "20",
@@ -28,7 +28,7 @@ import {
     return (
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle className="flex justify-between items-center">
-          <strong>Storage Area</strong>
+          <strong>{t("storage-area")}</strong>
           <IconButton onClick={handleClose}>
             <CloseIcon />
           </IconButton>
@@ -39,9 +39,9 @@ import {
             <Table>
               <TableHead>
                 <TableRow className="bg-gray-100">
-                  <TableCell><strong>Explanation</strong></TableCell>
-                  <TableCell><strong>Alan(MB)</strong></TableCell>
-                  <TableCell><strong>History</strong></TableCell>
+                  <TableCell><strong>{t("explanation")}</strong></TableCell>
+                  <TableCell><strong>{t("alan")}(MB)</strong></TableCell>
+                  <TableCell><strong>{t("history")}</strong></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -56,12 +56,7 @@ import {
             </Table>
           </TableContainer>
         </DialogContent>
-  
-        <DialogActions>
-          <Button onClick={handleClose} color="error" variant="contained">
-            Close
-          </Button>
-        </DialogActions>
+
       </Dialog>
     );
   };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
     Dialog,
     DialogTitle,
@@ -10,8 +10,11 @@ import {
     Typography,
 } from "@mui/material";
 import { Save, Close } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
+// eslint-disable-next-line react/prop-types
 const AddAddressDialog = ({ open, handleClose }) => {
+      const { t } = useTranslation();
     const [formData, setFormData] = useState({
         kepAddress: "hivin.polat@hs06.kep.tr",
         name: "hivin",
@@ -34,7 +37,7 @@ const AddAddressDialog = ({ open, handleClose }) => {
         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
             {/* Dialog Header with Close Button */}
             <DialogTitle sx={{ fontSize: "1.25rem", fontWeight: "bold", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                My Address Book
+                {t("my-address-book")}
                 <IconButton onClick={handleClose} sx={{ color: "gray" }}>
                     <Close />
                 </IconButton>
@@ -42,12 +45,12 @@ const AddAddressDialog = ({ open, handleClose }) => {
 
             {/* Dialog Content */}
             <DialogContent>
-                {[{ label: "Kep Address", name: "kepAddress" },
-                { label: "Name", name: "name" },
-                { label: "Last name", name: "lastName" },
-                { label: "Email Addresses", name: "email" },
-                { label: "Telephone", name: "telephone" },
-                { label: "Address", name: "address" }].map((field) => (
+                {[{ label: t("kepAddress"), name: "kepAddress" },
+                { label: t("name"), name: "name" },
+                { label: t("last-name"), name: "lastName" },
+                { label: t("email-addresses"), name: "email" },
+                { label: t("telephone"), name: "telephone" },
+                { label: t("address"), name: "address" }].map((field) => (
                     <Grid container spacing={2} alignItems="center" key={field.name} sx={{ marginBottom: 1 }}>
                         <Grid item xs={4}>
                             <Typography sx={{ fontWeight: 500 }}>{field.label}</Typography>
@@ -75,14 +78,14 @@ const AddAddressDialog = ({ open, handleClose }) => {
                             onClick={handleSubmit}
                             sx={{ textTransform: "none" }}
                         >
-                            Save
+                            {t("save")}
                         </Button>
                         <Button
                             variant="contained"
                             onClick={handleClose}
                             sx={{ backgroundColor: "#E0E0E0", color: "#000", textTransform: "none" }}
                         >
-                            Cancel
+                            {t("cancel")}
                         </Button>
                     </Grid>
                 </Grid>

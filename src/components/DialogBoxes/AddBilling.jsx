@@ -11,9 +11,11 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SaveIcon from "@mui/icons-material/Save";
+import { useTranslation } from "react-i18next";
 
 // eslint-disable-next-line react/prop-types
 const AddBillingDialog = ({ open, handleClose }) => {
+  const {t} = useTranslation()
   const [formData, setFormData] = useState({
     taxNumber: "",
     title: "",
@@ -35,7 +37,7 @@ const AddBillingDialog = ({ open, handleClose }) => {
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <DialogTitle className="flex justify-between items-center">
-        Add Billing Address
+        {t("add-billing-address")}
         <IconButton onClick={handleClose}>
           <CloseIcon />
         </IconButton>
@@ -44,7 +46,7 @@ const AddBillingDialog = ({ open, handleClose }) => {
       <DialogContent dividers>
         <form className="space-y-4">
           <TextField
-            label="Tax Number"
+            label={t("tax-number")}
             name="taxNumber"
             value={formData.taxNumber}
             onChange={handleChange}
@@ -52,7 +54,7 @@ const AddBillingDialog = ({ open, handleClose }) => {
             variant="outlined"
           />
           <TextField
-            label="Title"
+            label={t("title")}
             name="title"
             value={formData.title}
             onChange={handleChange}
@@ -60,7 +62,7 @@ const AddBillingDialog = ({ open, handleClose }) => {
             variant="outlined"
           />
           <TextField
-            label="Tax Office"
+            label={t("tax-office")}
             name="taxOffice"
             value={formData.taxOffice}
             onChange={handleChange}
@@ -68,7 +70,7 @@ const AddBillingDialog = ({ open, handleClose }) => {
             variant="outlined"
           />
           <TextField
-            label="Country"
+            label={t("country")}
             name="country"
             value={formData.country}
             onChange={handleChange}
@@ -81,7 +83,7 @@ const AddBillingDialog = ({ open, handleClose }) => {
             <MenuItem value="UK">UK</MenuItem>
           </TextField>
           <TextField
-            label="District"
+            label={t("district")}
             name="district"
             value={formData.district}
             onChange={handleChange}
@@ -94,7 +96,7 @@ const AddBillingDialog = ({ open, handleClose }) => {
             <MenuItem value="District 3">District 3</MenuItem>
           </TextField>
           <TextField
-            label="Address"
+            label={t("address")}
             name="address"
             value={formData.address}
             onChange={handleChange}
@@ -108,7 +110,7 @@ const AddBillingDialog = ({ open, handleClose }) => {
 
       <DialogActions>
         <Button onClick={handleSubmit} variant="contained" color="primary" startIcon={<SaveIcon />}>
-          Save
+          {t("save")}
         </Button>
       </DialogActions>
     </Dialog>

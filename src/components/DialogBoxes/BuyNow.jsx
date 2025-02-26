@@ -2,7 +2,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   Button,
   Table,
   TableBody,
@@ -15,9 +14,12 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
+import { useTranslation } from "react-i18next";
 
 // eslint-disable-next-line react/prop-types
 const BuyDialog = ({ open, handleClose }) => {
+        const { t } = useTranslation();
+
   const creditPackages = [
     { id: 1, product: "50 Credits", price: "₺420,00" },
     { id: 2, product: "100 Credits", price: "₺839,00" },
@@ -36,7 +38,7 @@ const BuyDialog = ({ open, handleClose }) => {
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <DialogTitle className="flex justify-between items-center">
-        <strong>Add Credit</strong>
+        <strong>{t("add-credit")}</strong>
         <IconButton onClick={handleClose}>
           <CloseIcon />
         </IconButton>
@@ -48,8 +50,8 @@ const BuyDialog = ({ open, handleClose }) => {
           <Table>
             <TableHead>
               <TableRow className="bg-gray-100">
-                <TableCell><strong>Product</strong></TableCell>
-                <TableCell><strong>Price</strong></TableCell>
+                <TableCell><strong>{t("product")}</strong></TableCell>
+                <TableCell><strong>{t("price")}</strong></TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
@@ -60,7 +62,7 @@ const BuyDialog = ({ open, handleClose }) => {
                   <TableCell>{item.price}</TableCell>
                   <TableCell>
                     <Button variant="contained" color="success" startIcon={<AddIcon />}>
-                      Add
+                      {t("add")}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -75,9 +77,9 @@ const BuyDialog = ({ open, handleClose }) => {
           <Table>
             <TableHead>
               <TableRow className="bg-gray-100">
-                <TableCell>Explanation</TableCell>
-                <TableCell>Transfer</TableCell>
-                <TableCell>History</TableCell>
+                <TableCell>{t("explanation")}</TableCell>
+                <TableCell>{t("transfer")}</TableCell>
+                <TableCell>{t("history")}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -93,11 +95,6 @@ const BuyDialog = ({ open, handleClose }) => {
         </TableContainer>
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={handleClose} color="error" variant="contained">
-          Close
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };
