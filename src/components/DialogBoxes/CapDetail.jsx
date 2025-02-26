@@ -2,16 +2,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
-  Typography,
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   IconButton,
 } from "@mui/material";
 import { Download, Close } from "@mui/icons-material";
@@ -27,29 +18,6 @@ const CapDetailModal = ({ open, handleClose }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        {/* <TableContainer component={Paper} sx={{ mb: 2, p: 2, borderRadius: 2 }}>
-          <Typography variant="h6" sx={{ backgroundColor: "#f5f5f5", p: 1, borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>MESSAGE INFORMATION</Typography>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TableCell>From whom:</TableCell>
-                <TableCell align="left">kepservisi@hs06.kep.tr</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Team:</TableCell>
-                <TableCell align="left">ilayda.kuran@hs06.kep.tr</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Subject:</TableCell>
-                <TableCell align="left">[KEP Evidence: Delivered]</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>History:</TableCell>
-                <TableCell align="left">2025-02-11 14:53:36</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer> */}
         <div className="my-4">
           <div className="border rounded-md relative">
             <div className="text-lg bg-white font-semibold px-4 py-2 absolute -top-6 left-4">Message Information</div>
@@ -69,31 +37,6 @@ const CapDetailModal = ({ open, handleClose }) => {
             </div>
           </div>
         </div>
-
-        {/* <TableContainer component={Paper} sx={{ mb: 2, p: 2, borderRadius: 2 }}>
-          <Typography variant="h6" sx={{ backgroundColor: "#f5f5f5", p: 1, borderTopLeftRadius: 8, borderTopRightRadius: 8 }}>CONTENTS</Typography>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TableCell>Content</TableCell>
-                <TableCell colSpan={2}>
-                  <Typography variant="body2">
-                    Proof of Delivery to the Recipient: <b>ILAYDA KURAN</b> by the user
-                    ilayda.kuran@hs06.kep.tr on
-                  </Typography>
-                  <Typography variant="body2" fontWeight="bold">
-                    2025-02-11T14:53:36+03:00
-                  </Typography>
-                  <Typography variant="body2">• cigdem.yilmaz@hs06.kep.tr</Typography>
-                  <Typography variant="body2">
-                    The message with the number <b>cekpur.remmd.8be1da12...</b> was delivered.
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer> */}
-
         <div className="my-6">
           <div className="border rounded-md relative">
             <div className="text-lg bg-white font-semibold px-4 py-2 absolute -top-6 left-4">Contents</div>
@@ -117,31 +60,6 @@ const CapDetailModal = ({ open, handleClose }) => {
             </div>
           </div>
         </div>
-
-        {/* <Typography variant="h6">DETAILS</Typography>
-        <Typography variant="body2" fontWeight="bold" mt={1} mb={1}>
-          Attachments
-        </Typography>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>File name</TableCell>
-                <TableCell align="right"></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>DeliveryNonDeliveryToRecipient.xml</TableCell>
-                <TableCell>
-                  <Button variant="contained" color="success" startIcon={<Download />}>
-                    Download
-                  </Button>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer> */}
         <div className="my-4">
           <div className="border rounded-md relative">
             {/* Title with absolute positioning */}
