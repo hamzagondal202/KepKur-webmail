@@ -148,8 +148,6 @@
     "product-name": "Product Name",
     "subscription-code": "Subscription Code",
     "tax-office": "Tax Office",
-    "country": "Country"
-    
-
-
+    "country": "Country",
+    "loading": "Loading"
 }

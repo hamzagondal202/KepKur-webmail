@@ -56,13 +56,13 @@ const InquireGuide = () => {
       {/* Tabs */}
       <div className="border-b flex space-x-6">
         <button
-          className={`pb-2 border-b-4 font-semibold ${activeTab === "realPerson" ? "border-blue-600" : "text-gray-500"}`}
+          className={`pb-2 font-semibold ${activeTab === "realPerson" ? "border-blue-600 border-b-4" : "text-gray-500"}`}
           onClick={() => setActiveTab("realPerson")}
         >
           {t("real-person-inquiry")}
         </button>
         <button
-          className={`pb-2 border-b-4 font-semibold ${activeTab === "legalEntity" ? "border-blue-600" : "text-gray-500"}`}
+          className={`pb-2 font-semibold ${activeTab === "legalEntity" ? "border-blue-600 border-b-4" : "text-gray-500"}`}
           onClick={() => setActiveTab("legalEntity")}
         >
           {t("legal-entity-inquiry")}

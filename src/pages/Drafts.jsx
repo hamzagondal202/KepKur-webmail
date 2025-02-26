@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
 import { useTranslation } from "react-i18next";
 import { getDraftItems } from "../services/DraftService";
+import { LoaderCircle } from "lucide-react";
 
 const Drafts = () => {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ const Drafts = () => {
   });
 
   const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
   const [rowChecked, setRowChecked] = useState({});
   const [reloadTrigger, setReloadTrigger] = useState(0);
@@ -55,6 +57,7 @@ const Drafts = () => {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await getDraftItems(); // Fetch data
       if (response && response.emails) {
         setData(response.emails);
@@ -64,6 +67,8 @@ const Drafts = () => {
     } catch (error) {
       console.error("Error fetching inbox items:", error);
       setData([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -87,7 +92,7 @@ const Drafts = () => {
           value={searchParams.subject}
           onChange={handleChange}
           placeholder={t("subject")}
-          className="border p-2 rounded"
+          className="border p-2 rounded h-11 mt-6"
         />
         <input
           type="text"
@@ -95,26 +100,33 @@ const Drafts = () => {
           value={searchParams.buyers}
           onChange={handleChange}
           placeholder={t("buyers")}
-          className="border p-2 rounded"
+          className="border p-2 rounded h-11 mt-6"
         />
 
-        {/* Date Fields */}
-        <input
-          type="date"
-          name="startDate"
-          value={searchParams.startDate}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="date"
-          name="endDate"
-          value={searchParams.endDate}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+        <div className="flex flex-col">
+          <div className="font-semibold pl-1">Start</div>
+          <input
+            type="date"
+            name="startDate"
+            value={searchParams.startDate}
+            onChange={handleChange}
+            placeholder={t("startDate")}
+            className="border p-2 rounded"
+          />
+        </div>
+        <div className="flex flex-col">
+          <div className="font-semibold pl-1">End</div>
+          <input
+            type="date"
+            name="endDate"
+            value={searchParams.endDate}
+            onChange={handleChange}
+            placeholder={t("endDate")}
+            className="border p-2 rounded"
+          />
+        </div>
 
-        <div className="flex flex-row justify-between col-span-2 me-6">
+        <div className="flex flex-row justify-between col-span-2 me-6 h-11 mt-6">
           <button className="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-md shadow-md">
             <FaSearch />
             <span>{t("weBuy")}</span>
@@ -148,7 +160,15 @@ const Drafts = () => {
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
+            {isLoading ? (
+              <tr>
+                <td colSpan={6} className="p-4">
+                  <div className="flex justify-center items-center">
+                    <LoaderCircle color="#2563eb" className="w-8 h-8 animate-spin text-blue-600" />
+                  </div>
+                </td>
+              </tr>
+            ) : (data.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center p-4 text-gray-500">
                   {t("noRecordFound")}
@@ -168,6 +188,7 @@ const Drafts = () => {
                   <td className="p-2">{item.last_modified}</td>
                 </tr>
               ))
+            )
             )}
           </tbody>
         </table>
