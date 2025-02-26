@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaSearch, FaPlus, FaSyncAlt } from "react-icons/fa";
+import { FaSearch, FaPlus } from "react-icons/fa";
 import { Button } from "@mui/material";
 import NewCapMessageDialog from "../components/DialogBoxes/NewCapMessage";
 import { useTranslation } from "react-i18next";
@@ -103,28 +103,26 @@ const Drafts = () => {
           className="border p-2 rounded h-11 mt-6"
         />
 
-        <div className="flex flex-col">
-          <div className="font-semibold pl-1">Start</div>
           <input
-            type="date"
+            type="text"
             name="startDate"
             value={searchParams.startDate}
             onChange={handleChange}
             placeholder={t("startDate")}
-            className="border p-2 rounded"
+            className="border p-2 rounded h-11 mt-6"
+            onFocus={(e) => e.target.type = "date"}
+            onBlur={(e) => e.target.type = "text"}
           />
-        </div>
-        <div className="flex flex-col">
-          <div className="font-semibold pl-1">End</div>
           <input
-            type="date"
+            type="text"
             name="endDate"
             value={searchParams.endDate}
             onChange={handleChange}
             placeholder={t("endDate")}
-            className="border p-2 rounded"
+            className="border p-2 rounded h-11 mt-6"
+            onFocus={(e) => e.target.type = "date"}
+            onBlur={(e) => e.target.type = "text"}
           />
-        </div>
 
         <div className="flex flex-row justify-between col-span-2 me-6 h-11 mt-6">
           <button className="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-md shadow-md">

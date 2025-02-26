@@ -67,6 +67,7 @@
     "e-correspondence": "E-Correspondence",
     "upload-file": "Upload file",
     "createMessage": "Create Message",
+    "loading": "Loading",
     "real-person-inquiry": "Real Person Inquiry",
     "legal-entity-inquiry": "Legal Entity Inquiry",
     "kep-account-address": "KEP Acount Address",
@@ -149,5 +150,14 @@
     "subscription-code": "Subscription Code",
     "tax-office": "Tax Office",
     "country": "Country",
-    "loading": "Loading"
+    "cap-detail": "Cap Detail",
+    "message-information": "MESSAGE INFORMATION",
+    "from-whom": "From whom",
+    "team": "Team",
+    "contents": "CONTENTS",
+    "content": "Content",
+    "details": "Details",
+    "attachments": "Attachments",
+    "file-name": "File name",
+    "download": "DOWNLOAD"
 }

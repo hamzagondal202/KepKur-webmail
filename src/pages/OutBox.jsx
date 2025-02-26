@@ -101,28 +101,27 @@ const OutBox = () => {
           className="border p-2 rounded h-11 mt-6"
         />
 
-        <div className="flex flex-col">
-          <div className="font-semibold pl-1">Start</div>
-          <input
-            type="date"
-            name="startDate"
-            value={searchParams.startDate}
-            onChange={handleChange}
-            placeholder={t("startDate")}
-            className="border p-2 rounded"
-          />
-        </div>
-        <div className="flex flex-col">
-          <div className="font-semibold pl-1">End</div>
-          <input
-            type="date"
-            name="endDate"
-            value={searchParams.endDate}
-            onChange={handleChange}
-            placeholder={t("endDate")}
-            className="border p-2 rounded"
-          />
-        </div>
+
+        <input
+          type="text"
+          name="startDate"
+          value={searchParams.startDate}
+          onChange={handleChange}
+          placeholder={t("startDate")}
+          className="border p-2 rounded h-11 mt-6"
+          onFocus={(e) => e.target.type = "date"}
+          onBlur={(e) => e.target.type = "text"}
+        />
+        <input
+          type="text"
+          name="endDate"
+          value={searchParams.endDate}
+          onChange={handleChange}
+          placeholder={t("endDate")}
+          className="border p-2 rounded h-11 mt-6"
+          onFocus={(e) => e.target.type = "date"}
+          onBlur={(e) => e.target.type = "text"}
+        />
 
         <div className="flex flex-row justify-between col-span-2 me-6  h-11 mt-6">
           <button className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-md shadow-md">

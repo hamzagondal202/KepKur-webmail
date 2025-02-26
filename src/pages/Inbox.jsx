@@ -114,28 +114,27 @@ const Inbox = () => {
           className="border p-2 rounded h-11 mt-6"
         />
 
-        <div className="flex flex-col">
-          <div className="font-semibold pl-1">Start</div>
-          <input
-            type="date"
-            name="startDate"
-            value={searchParams.startDate}
-            onChange={handleChange}
-            placeholder={t("startDate")}
-            className="border p-2 rounded"
-          />
-        </div>
-        <div className="flex flex-col">
-          <div className="font-semibold pl-1">End</div>
-          <input
-            type="date"
-            name="endDate"
-            value={searchParams.endDate}
-            onChange={handleChange}
-            placeholder={t("endDate")}
-            className="border p-2 rounded"
-          />
-        </div>
+        <input
+          type="text"
+          name="startDate"
+          value={searchParams.startDate}
+          onChange={handleChange}
+          placeholder={t("startDate")}
+          className="border p-2 rounded h-11 mt-6"
+          onFocus={(e) => e.target.type = "date"}
+          onBlur={(e) => e.target.type = "text"}
+        />
+        <input
+          type="text"
+          name="endDate"
+          value={searchParams.endDate}
+          onChange={handleChange}
+          placeholder={t("endDate")}
+          className="border p-2 rounded h-11 mt-6"
+          onFocus={(e) => e.target.type = "date"}
+          onBlur={(e) => e.target.type = "text"}
+        />
+
       </div>
 
       <div className="flex items-center justify-between mb-4 me-6">

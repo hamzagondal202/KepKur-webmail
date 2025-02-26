@@ -149,5 +149,15 @@
     "product-name": "Ürün Adı",
     "subscription-code": "Abonelik Kodu",
     "tax-office": "Vergi Dairesi",
-    "country": "Ülke"
+    "country": "Ülke",
+    "cap-detail": "Başlık Detayı",
+    "message-information": "MESAJ BİLGİLERİ",
+    "from-whom": "Kimden",
+    "team": "Ekip",
+    "contents": "İÇERİKLER",
+    "content": "İçerik",
+    "details": "Detaylar",
+    "attachments": "Ekler",
+    "file-name": "Dosya Adı",
+    "download": "İNDİR"
 }
