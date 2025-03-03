@@ -159,5 +159,9 @@
     "details": "Detaylar",
     "attachments": "Ekler",
     "file-name": "Dosya Adı",
-    "download": "İNDİR"
+    "download": "İNDİR",
+    "previous": "Önceki",
+    "page": "Sayfa",
+    "next": "Sonraki",
+    "of": " / "
 }

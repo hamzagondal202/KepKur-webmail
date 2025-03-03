@@ -70,7 +70,7 @@ export default function LoginPage() {
           name: "Test Account 1",
           kep_address: "test@dictalabs.kep.tr"
         }
-        initUser(user);
+        initUser(user, "sometoken");
         handleRedirection()
       }
     }
@@ -107,7 +107,7 @@ export default function LoginPage() {
 
     if (response) {
       console.log("OTP Verified. Proceed to dashboard...");
-      initUser(response.user);
+      initUser(response.user, response.token);
       handleRedirection();
     } else {
       setErrors({ otp: t("otp-is-invalid") });

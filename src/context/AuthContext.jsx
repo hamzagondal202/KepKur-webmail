@@ -12,17 +12,17 @@ export function AuthProvider({ children }) {
   });
 
   // Function to log in and set the user profile
-  const initUser = (userData) => {
+  const initUser = (userData, token) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData)); // Store in localStorage
-    localStorage.setItem("auth", "true");
+    localStorage.setItem("token", token);
   };
 
   // Function to log out
   const exitUser = () => {
     setUser(null);
     localStorage.removeItem("user");
-    localStorage.removeItem("auth");
+    localStorage.removeItem("token");
   };
 
   return (
