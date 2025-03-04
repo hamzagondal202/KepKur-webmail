@@ -1,65 +1,117 @@
 import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    IconButton,
-  } from "@mui/material";
-  import CloseIcon from "@mui/icons-material/Close";
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useTranslation } from "react-i18next";
-  
-  // eslint-disable-next-line react/prop-types
-  const StorageArea = ({ open, handleClose }) => {
-  
-    const {t} = useTranslation()
-    const transactions = Array(7).fill({
-        explanation: "[KEP Evidence: Accepted by HS06] [KEP Message] evidence ...   ",
-        transfer: "20",
-        history: "3.10.2024 14:22",
-      });
-    
-  
-    return (
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-        <DialogTitle className="flex justify-between items-center">
-          <strong>{t("storage-area")}</strong>
-          <IconButton onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-  
-        <DialogContent dividers>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow className="bg-gray-100">
-                  <TableCell><strong>{t("explanation")}</strong></TableCell>
-                  <TableCell><strong>{t("alan")}(MB)</strong></TableCell>
-                  <TableCell><strong>{t("history")}</strong></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import env from "../../env.json";
+
+// eslint-disable-next-line react/prop-types
+const StorageArea = ({ open, handleClose }) => {
+
+  const { t } = useTranslation()
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const pageSize = 10;
+  const [transactions, setTransactions] = useState([]);
+
+  const handlePageChange = useCallback((newPage) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      setCurrentPage(newPage);
+    }
+  }, [totalPages]);
+
+  const fetchTransactions = async (page, size) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${env.url}/api/storage/history?page=${page}&size=${size}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log(response);
+
+      setTransactions(response.data.transactions);
+      setTotalPages(response.data.pageable?.totalPages);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      fetchTransactions(currentPage, pageSize);
+    }
+  }, [open, currentPage]);
+
+
+  return (
+    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+      <DialogTitle className="flex justify-between items-center">
+        <strong>{t("storage-area")}</strong>
+        <IconButton onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+
+      <DialogContent dividers>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow className="bg-gray-100">
+                <TableCell><strong>{t("explanation")}</strong></TableCell>
+                <TableCell><strong>{t("alan")}(MB)</strong></TableCell>
+                <TableCell><strong>{t("history")}</strong></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
               {transactions.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell>{item.explanation}</TableCell>
-                  <TableCell>{item.transfer}</TableCell>
-                  <TableCell>{item.history}</TableCell>
+                  <TableCell>{item.storage_area}</TableCell>
+                  <TableCell>{item.date}</TableCell>
                 </TableRow>
               ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </DialogContent>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div className="flex justify-between mt-4 items-center p-2">
+          <button
+            disabled={currentPage === 0}
+            onClick={() => handlePageChange(currentPage - 1)}
+            className={`px-4 py-2 rounded-md ${currentPage === 0 ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
+          >
+            {t("previous")}
+          </button>
 
-      </Dialog>
-    );
-  };
-  
-  export default StorageArea;
-  
+          <span className="text-sm text-gray-700">
+            {t("page")} {currentPage + 1} {t("of")} {totalPages}
+          </span>
+
+          <button
+            disabled={currentPage >= totalPages - 1}
+            onClick={() => handlePageChange(currentPage + 1)}
+            className={`px-4 py-2 rounded-md ${currentPage >= totalPages - 1 ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
+          >
+            {t("next")}
+          </button>
+        </div>
+      </DialogContent>
+
+    </Dialog>
+  );
+};
+
+export default StorageArea;
