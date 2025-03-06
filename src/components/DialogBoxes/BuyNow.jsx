@@ -41,7 +41,6 @@ const BuyDialog = ({ open, handleClose }) => {
   const fetchCreditPackages = async () => {
     try {
       const token = localStorage.getItem("token");
-
       const response = await axios.get(`${env.url}/api/credits/packages`, {
         headers: { Authorization: `Bearer ${token}` },
       });
