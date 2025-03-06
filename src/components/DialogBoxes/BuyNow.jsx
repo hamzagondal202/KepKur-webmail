@@ -62,7 +62,6 @@ const BuyDialog = ({ open, handleClose }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-console.log(response);
 
       setTransactions(response.data.transactions || []);
       setTotalPages(response.data.pageable.totalPages || 1);
